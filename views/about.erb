@@ -1,0 +1,391 @@
+<script src="/js/d3.v3.js"></script>
+<script src="/js/ibox.js"></script>
+<script src="/js/ibox.extras.js"></script>
+
+<h1>About</h1>
+<aside>
+	<p>
+    <div id="container-fluid">
+    		<b>NARA</b> stands for <b>N</b>on-<b>A</b>rbitrary <b>R</b>esource <b>A</b>llocation, a supply-chain barter system which facilitates trade between organizations. It is based on <b><a href="https://www.youtube.com/watch?v=ejJRhn53X2M" rel="ibox" >Adam Smith's </a><a href="https://www.youtube.com/watch?v=T1I5n2-ro_Q" rel="ibox">Labour Theory of Value</a></b>
+		which pegs value on the commodities themselves, instead of currency which is <b><a href="#inner_content1" rel="ibox&height=300"  title="Non-arbitrariness is the foundation for fair systems" >inherently aribtrary in value</a></b>. It fulfills his <b><a href="#inner_content2" rel="ibox&height=350" title="Smith's idea for a universal and real-time trade system" >business requirement</a></b> given over 200 years ago.
+		<br><br>
+NARA aims to connect its users to form a trade network based on their supply and demand, just as Facebook connects its users to form a social network.
+    Unlike other barter systems which rely on trade credits, NARA relies on <i>digital </i><b><a href="http://www.gwec.net/wp-content/uploads/2012/08/Barter-agreement-GWEC-EWEA.pdf" target="_blank">trade contracts</a></b>, just like children trade bananas for apples during school lunchtime without needing trade credits to store unused value.
+    <br><br>
+		Clicking on the left creates a node which represents a company, which NARA automatically connects to other companies as its suppliers or customers.
+	</div>
+  </p>
+	</aside>
+
+  <div id="inner_content1" style="display:none;" >
+    <div> 
+Paper money can be printed without limits and gold coins can be adulterated by governments to reduce their debts by raising their nominal value. This, however, causes price instability for all.
+<br><br>
+On the other hand, no single entity can control food prices, as people are free to choose what they will eat and even produce their own food. For this reason, Smith chose food, specifically grains, to be the basis for economic value, instead of paper or gold money.
+    </div>
+  </div>
+
+  <div id="inner_content2" style="display:none;">
+    <div> 
+"The wholesaler affords a ready market for the manufacturer by taking the manufacturer’s goods as fast as the manufacturer can make them. It enables the manufacturer to keep his whole capital constantly employed in manufacturing and he can manufacture more goods. This intercourse between the dealers and manufacturers interests the owner of a large capital to support the many owners of small capitals. If it were possible to establish this intercourse between farmers and merchants <b>universally and all at once</b>*, it is not very easy to imagine how great, extensive, and sudden would be the improvement to the <b>entire</b> country."
+<br><br>
+<small>Simple Wealth of Nations, Book 4, Chap. 5, Par. 59</small><br><br>
+* This was not possible during Smith's time, but is now possible through the web, which makes information available universally and in real-time.
+    </div>
+  </div>
+
+<div style="width: 75%">
+<div style="float: left; ">
+<!-- <button onclick="addNodes()">Repeat Animation Below</button></div>        -->
+<p>NARA is made up of database and mapping systems..</p>
+</div>
+<div style="float: right;">
+<p>..it aims to connect suppliers with customers and vice versa</p>
+</div>
+</div>
+    <style>
+        .link {
+            stroke: #2E2E2E;
+            stroke-width: 1px;
+        }
+
+        .node {
+            stroke: #fff;
+            stroke-width: 2px;
+        }
+        .textClass {
+            stroke: #323232;
+            font-family: "Lucida Grande", "Droid Sans", Arial, Helvetica, sans-serif;
+            font-weight: normal;
+            stroke-width: .5;
+            font-size: 14px;
+        }
+    </style>
+
+<script>
+    var graph;
+    function myGraph() {
+
+        // Add and remove elements on the graph object
+        this.addNode = function (id) {
+            nodes.push({"id": id});
+            update();
+        };
+
+        this.removeNode = function (id) {
+            var i = 0;
+            var n = findNode(id);
+            while (i < links.length) {
+                if ((links[i]['source'] == n) || (links[i]['target'] == n)) {
+                    links.splice(i, 1);
+                }
+                else i++;
+            }
+            nodes.splice(findNodeIndex(id), 1);
+            update();
+        };
+
+        this.removeLink = function (source, target) {
+            for (var i = 0; i < links.length; i++) {
+                if (links[i].source.id == source && links[i].target.id == target) {
+                    links.splice(i, 1);
+                    break;
+                }
+            }
+            update();
+        };
+
+        this.removeallLinks = function () {
+            links.splice(0, links.length);
+            update();
+        };
+
+        this.removeAllNodes = function () {
+            nodes.splice(0, links.length);
+            update();
+        };
+
+        this.addLink = function (source, target, value) {
+            links.push({"source": findNode(source), "target": findNode(target), "value": value});
+            update();
+        };
+
+        var findNode = function (id) {
+            for (var i in nodes) {
+                if (nodes[i]["id"] === id) return nodes[i];
+            }
+            ;
+        };
+
+        var findNodeIndex = function (id) {
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].id == id) {
+                    return i;
+                }
+            }
+            ;
+        };
+
+        // set up the D3 visualisation in the specified element
+        var w = 600, h = 500;
+
+        var color = d3.scale.category10();
+  
+        var vis = d3.select("body")
+                .append("svg:svg")
+                .attr("width", w)
+                .attr("height", h)
+                .attr("id", "svg")
+                .attr("style", "border-right: thin solid gray;")
+                .attr("pointer-events", "all")
+                .attr("viewBox", "0 0 " + w + " " + h)
+                .attr("perserveAspectRatio", "xMinYMid")
+                .append('svg:g')
+    .html('<div style="width: 150px;">This</div>');
+
+        var force = d3.layout.force();
+
+        var nodes = force.nodes(),
+                links = force.links();
+
+        var update = function () {
+            var link = vis.selectAll("line")
+                    .data(links, function (d) {
+                        return d.source.id + "-" + d.target.id;
+                    });
+
+            link.enter().append("line")
+                    .attr("id", function (d) {
+                        return d.source.id + "-" + d.target.id;
+                    })
+                    .attr("stroke-width", function (d) {
+                        return d.value / 10;
+                    })
+                    .attr("class", "link");
+            link.append("title")
+                    .text(function (d) {
+                        return d.value;
+                    });
+            link.exit().remove();
+
+            var node = vis.selectAll("g.node")
+                    .data(nodes, function (d) {
+                        return d.id;
+                    });
+
+            var nodeEnter = node.enter().append("g")
+                    .attr("class", "node")
+                    .call(force.drag);
+
+            nodeEnter.append("svg:circle")
+                    .attr("r", 12)
+                    .attr("id", function (d) {
+                        return "Node;" + d.id;
+                    })
+                    .attr("class", "nodeStrokeClass")
+                    .attr("fill", function(d) { return color(d.id); });
+
+            nodeEnter.append("svg:text")
+                    .attr("class", "textClass")
+                    .attr("x", 14)
+                    .attr("y", ".31em")
+                    .text(function (d) {
+                        return d.id;
+                    });
+
+            node.exit().remove();
+
+            force.on("tick", function () {
+
+                node.attr("transform", function (d) {
+                    return "translate(" + d.x + "," + d.y + ")";
+                });
+
+                link.attr("x1", function (d) {
+                    return d.source.x;
+                })
+                        .attr("y1", function (d) {
+                            return d.source.y;
+                        })
+                        .attr("x2", function (d) {
+                            return d.target.x;
+                        })
+                        .attr("y2", function (d) {
+                            return d.target.y;
+                        });
+            });
+
+            // Restart the force layout.
+            force
+                    .gravity(.01)
+                    .charge(-80000)
+                    .friction(0)
+                    .linkDistance( function(d) { return d.value * 10 } )
+                    .size([w, h])
+                    .start();
+        };
+
+
+        // Make it all go
+        update();
+    }
+
+    function drawGraph() {
+
+        graph = new myGraph("#svgdiv");
+
+        graph.addNode('NARA');
+        graph.addNode('Database System 2');
+        graph.addNode('Third Party Tracking System');
+        graph.addNode('Database System 1');
+        graph.addNode('Third Party ERP System');
+        graph.addNode('Mapping System');
+
+        graph.addLink('NARA', 'Database System 1', '10');
+        graph.addLink('NARA', 'Database System 2', '10');
+        graph.addLink('Database System 1', 'Database System 2', '10');
+        graph.addLink('Mapping System', 'Database System 2', '10');
+        graph.addLink('NARA', 'Mapping System', '10');
+
+        keepNodesOnTop();
+
+        // callback for the changes in the network
+        var step = -1;
+        function nextval()
+        {
+            step++;
+            return 5000 + (1500*step); // initial time, wait time
+        }
+
+        setTimeout(function() {
+            graph.addLink('Third Party ERP System', 'Database System 2', '20');
+            keepNodesOnTop();
+        }, nextval());
+
+        setTimeout(function() {
+            graph.addLink('Third Party Tracking System', 'Database System 2', '15');
+            keepNodesOnTop();
+        }, nextval());
+
+    }
+
+    drawGraph();
+
+    // because of the way the network is created, nodes are created first, and links second,
+    // so the lines were on top of the nodes, this just reorders the DOM to put the svg:g on top
+    function keepNodesOnTop() {
+        $(".nodeStrokeClass").each(function( index ) {
+            var gnode = this.parentNode;
+            gnode.parentNode.appendChild(gnode);
+        });
+    }
+    function addNodes() {
+        d3.select("svg")
+                .remove();
+         drawGraph();
+    }
+</script>
+
+<style>
+rect {
+  fill: none;
+  pointer-events: all;
+}
+
+.node {
+  fill: #000;
+}
+
+.cursor {
+  fill: none;
+  stroke: brown;
+  pointer-events: none;
+}
+
+.link {
+  stroke: #999;
+}
+</style>
+
+<script>
+var width = 400,
+    height = 500;
+
+var fill = d3.scale.category20();
+
+var force = d3.layout.force()
+    .size([width, height])
+    .nodes([{}]) // initialize with a single node
+    .linkDistance(30)
+    .charge(-60)
+    .on("tick", tick);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .on("mousemove", mousemove)
+    .on("mousedown", mousedown);
+
+svg.append("rect")
+    .attr("width", width)
+    .attr("height", height);
+
+var nodes = force.nodes(),
+    links = force.links(),
+    node = svg.selectAll(".node"),
+    link = svg.selectAll(".link");
+
+var cursor = svg.append("circle")
+    .attr("r", 30)
+    .attr("transform", "translate(-100,-100)")
+    .attr("class", "cursor");
+
+restart();
+
+function mousemove() {
+  cursor.attr("transform", "translate(" + d3.mouse(this) + ")");
+}
+
+function mousedown() {
+  var point = d3.mouse(this),
+      node = {x: point[0], y: point[1]},
+      n = nodes.push(node);
+
+  // add links to any nearby nodes
+  nodes.forEach(function(target) {
+    var x = target.x - node.x,
+        y = target.y - node.y;
+    if (Math.sqrt(x * x + y * y) < 30) {
+      links.push({source: node, target: target});
+    }
+  });
+
+  restart();
+}
+
+function tick() {
+  link.attr("x1", function(d) { return d.source.x; })
+      .attr("y1", function(d) { return d.source.y; })
+      .attr("x2", function(d) { return d.target.x; })
+      .attr("y2", function(d) { return d.target.y; });
+
+  node.attr("cx", function(d) { return d.x; })
+      .attr("cy", function(d) { return d.y; });
+}
+
+function restart() {
+  link = link.data(links);
+
+  link.enter().insert("line", ".node")
+      .attr("class", "link");
+
+  node = node.data(nodes);
+
+  node.enter().insert("circle", ".cursor")
+      .attr("class", "node")
+      .attr("r", 5)
+      .call(force.drag);
+
+  force.start();
+}
+</script>

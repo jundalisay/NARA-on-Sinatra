@@ -1,0 +1,309 @@
+<script src="/js/d3.min.js"></script>
+<script src="/js/d3.v3.js"></script>
+<link rel="stylesheet" href="/css/table.css" />
+
+<section id="left">
+<h4>ABS-CBN's Trades</h4>
+<p>
+My company wants to trade <input type="text" value="1" size="3"> units of our <b><a href="http://www.rmn.ph/index.php?nav=adrates" target="_blank">advertising_radio</a></b> for <input type="text" value="1" size="3"> units of <b><a href="http://www.kfc.com.ph/chicken#2" target="_blank">fried_chicken</a></b> from <b><a href="/kfc">KFC</a></b>. <button onclick="alert('A notification has been sent to KFC and other companies about the trade. Once accepted, NARA will prepare the trade contract(s) for formal acceptance.');">Send This Trade Request</button></p>
+
+<div class="CSSTableGenerator" >
+    <table >
+        <thead>
+            <td>SKU(s)</td>
+            <td>Quantity Remaining</td>
+            <td>Price per SKU</td>
+            <td>Notes</td>
+        </thead>
+        <tr>
+            <td><a href='#'>advertising_radio</a></td>
+            <td>8,000 hours</td>
+            <td>Php 300,000</td>
+            <td>Regular hours only</td>
+
+        </tr>
+        <tr>
+            <td><a href='#'>advertising_tv</a></td>
+            <td>8,000 hours</td>
+            <td>Php 36,000,000</td>
+            <td>Regular hours only</td>
+        </tr>
+    </table>
+</div>
+       
+</section>
+
+<svg height="480" width="160">
+    <text x="10" y="15" >Scenario 1: ABSCBN</text>
+    <text x="10" y="35" >gives Php100k ad</text>
+    <text x="10" y="55" >service to FosterFoods</text>
+    <text x="10" y="75" >which then gives</text>
+    <text x="10" y="95" >Php100k raw chicken</text>
+    <text x="10" y="115" >to KFC. KFC then</text>
+    <text x="10" y="135" >gives Php100k fried</text>
+    <text x="10" y="155" >chicken to ABSCBN.</text>
+    <text x="10" y="175" >The profits per</text>
+    <text x="10" y="195" >transaction is the</text>
+    <text x="10" y="215" >same, had money been</text>
+    <text x="10" y="235" >used. The overall</text>
+    <text x="10" y="255" >profitability however</text>
+    <text x="10" y="275" >is bigger as the</text>
+    <text x="10" y="295" >cost of money</text>
+    <text x="10" y="315" >is reduced.</text>
+</svg>
+
+    <style>
+        .link {
+            stroke: #2E2E2E;
+            stroke-width: 1px;
+        }
+
+        .node {
+            stroke: #fff;
+            stroke-width: 2px;
+        }
+        .textClass {
+            stroke: #323232;
+            font-family: "Lucida Grande", "Droid Sans", Arial, Helvetica, sans-serif;
+            font-weight: normal;
+            stroke-width: .5;
+            font-size: 14px;
+        }
+    </style>
+<button onclick="addNodes()">See Connections Again!</button> 
+
+<script>
+    var graph;
+    function myGraph() {
+
+        // Add and remove elements on the graph object
+        this.addNode = function (id) {
+            nodes.push({"id": id});
+            update();
+        };
+
+        this.removeNode = function (id) {
+            var i = 0;
+            var n = findNode(id);
+            while (i < links.length) {
+                if ((links[i]['source'] == n) || (links[i]['target'] == n)) {
+                    links.splice(i, 1);
+                }
+                else i++;
+            }
+            nodes.splice(findNodeIndex(id), 1);
+            update();
+        };
+
+        this.removeLink = function (source, target) {
+            for (var i = 0; i < links.length; i++) {
+                if (links[i].source.id == source && links[i].target.id == target) {
+                    links.splice(i, 1);
+                    break;
+                }
+            }
+            update();
+        };
+
+        this.removeallLinks = function () {
+            links.splice(0, links.length);
+            update();
+        };
+
+        this.removeAllNodes = function () {
+            nodes.splice(0, links.length);
+            update();
+        };
+
+        this.addLink = function (source, target, value) {
+            links.push({"source": findNode(source), "target": findNode(target), "value": value});
+            update();
+        };
+
+        var findNode = function (id) {
+            for (var i in nodes) {
+                if (nodes[i]["id"] === id) return nodes[i];
+            }
+            ;
+        };
+
+        var findNodeIndex = function (id) {
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].id == id) {
+                    return i;
+                }
+            }
+            ;
+        };
+
+        // set up the D3 visualisation in the specified element
+        var w = 600, h = 500;
+
+        var color = d3.scale.category10();
+	
+        var vis = d3.select("body")
+                .append("svg:svg")
+                .attr("width", w)
+                .attr("height", h)
+                .attr("id", "svg")
+                .attr("pointer-events", "all")
+                .attr("viewBox", "0 0 " + w + " " + h)
+                .attr("perserveAspectRatio", "xMinYMid")
+                .append('svg:g')
+		.html('<div style="width: 150px;">This</div>');
+
+        var force = d3.layout.force();
+
+        var nodes = force.nodes(),
+                links = force.links();
+
+        var update = function () {
+            var link = vis.selectAll("line")
+                    .data(links, function (d) {
+                        return d.source.id + "-" + d.target.id;
+                    });
+
+            link.enter().append("line")
+                    .attr("id", function (d) {
+                        return d.source.id + "-" + d.target.id;
+                    })
+                    .attr("stroke-width", function (d) {
+                        return d.value / 10;
+                    })
+                    .attr("class", "link");
+            link.append("title")
+                    .text(function (d) {
+                        return d.value;
+                    });
+            link.exit().remove();
+
+            var node = vis.selectAll("g.node")
+                    .data(nodes, function (d) {
+                        return d.id;
+                    });
+
+            var nodeEnter = node.enter().append("g")
+                    .attr("class", "node")
+                    .call(force.drag);
+
+            nodeEnter.append("svg:circle")
+                    .attr("r", 12)
+                    .attr("id", function (d) {
+                        return "Node;" + d.id;
+                    })
+                    .attr("class", "nodeStrokeClass")
+                    .attr("fill", function(d) { return color(d.id); });
+
+            nodeEnter.append("svg:text")
+                    .attr("class", "textClass")
+                    .attr("x", 14)
+                    .attr("y", ".31em")
+                    .text(function (d) {
+                        return d.id;
+                    });
+
+            node.exit().remove();
+
+            force.on("tick", function () {
+
+                node.attr("transform", function (d) {
+                    return "translate(" + d.x + "," + d.y + ")";
+                });
+
+                link.attr("x1", function (d) {
+                    return d.source.x;
+                })
+                        .attr("y1", function (d) {
+                            return d.source.y;
+                        })
+                        .attr("x2", function (d) {
+                            return d.target.x;
+                        })
+                        .attr("y2", function (d) {
+                            return d.target.y;
+                        });
+            });
+
+            // Restart the force layout.
+            force
+                    .gravity(.01)
+                    .charge(-80000)
+                    .friction(0)
+                    .linkDistance( function(d) { return d.value * 10 } )
+                    .size([w, h])
+                    .start();
+        };
+
+
+        // Make it all go
+        update();
+    }
+
+    function drawGraph() {
+
+        graph = new myGraph("#svgdiv");
+
+        graph.addNode('FosterFoods');
+        graph.addNode('KFC');
+        graph.addNode('ABSCBN');
+        graph.addNode('Purefoods');
+        graph.addNode('Jollibee');
+        graph.addNode('McDonalds');
+
+        graph.addLink('KFC', 'Purefoods', '10');
+        graph.addLink('FosterFoods', 'Jollibee', '20');
+        graph.addLink('FosterFoods', 'McDonalds', '20');
+        keepNodesOnTop();
+
+        // callback for the changes in the network
+        var step = -1;
+        function nextval()
+        {
+            step++;
+            return 5000 + (1500*step); // initial time, wait time
+        }
+
+        setTimeout(function() {
+            graph.addLink('ABSCBN', 'FosterFoods', '10');
+            keepNodesOnTop();
+        }, nextval());
+
+        setTimeout(function() {
+            graph.addLink('FosterFoods', 'KFC', '10');
+            keepNodesOnTop();
+        }, nextval());
+
+        setTimeout(function() {
+            graph.addLink('ABSCBN', 'KFC', '10');
+            keepNodesOnTop();
+        }, nextval());
+    }
+
+    drawGraph();
+
+    // because of the way the network is created, nodes are created first, and links second,
+    // so the lines were on top of the nodes, this just reorders the DOM to put the svg:g on top
+    function keepNodesOnTop() {
+        $(".nodeStrokeClass").each(function( index ) {
+            var gnode = this.parentNode;
+            gnode.parentNode.appendChild(gnode);
+        });
+    }
+    function addNodes() {
+        d3.select("svg")
+                .remove();
+         drawGraph();
+    }
+</script>
+
+
+
+    <aside>
+    <p>
+        This is where you create barter trade agreements. It also shows the extent of your company's trade network.        
+    <br><br>
+        In this case, Adam is an <b><a href="http://www.abs-cbn.com/">ABS-CBN</a></b> executive who wants a supply of fried chicken for a certain project. Since ABS-CBN sells <b><a href="http://corporate.abs-cbn.com/businesses/business-segments">advertising</a></b>, he can barter it to KFC. It finds two KFC suppliers: <b><a href="http://www.fosterfoods.com" target="_blank">FosterFoods</a></b> and <b><a href="http://www.sanmiguelpurefoods.com/" target="_blank">Purefoods</a></b>. Assuming FosterFoods is interested, NARA sends it ABSCBN's trade request.
+    <br><br>
+In Scenario 1, FosterFoods accepts and NARA then sends another trade contract between FosterFoods and KFC to close the loop as a collection of three <i>digital barter contracts</i>. They will do this because barter will <i>save them the cost of money</i>. Their only cash outlay will be for tax payments. Cash can thus be saved to pay wages. NARA does some of the work of paper cash or credit, in the same way that paper cash did the work of gold coins in the 17th century.
+    </p>
+    </aside>

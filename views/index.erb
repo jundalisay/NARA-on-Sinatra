@@ -1,0 +1,96 @@
+<br>
+ 
+<canvas id="neoviz">
+    <section id="title">
+    <h1>NARA</h1>
+      <p>Company & SKU Browser</p>
+	  </section> 
+  <title>NARA</title>
+    <header>
+    </header>
+</canvas> 
+
+<section id="bottomright"> 
+<!--    <div class="blocks">5<br> <div style="font-size: 15px; font-weight:normal">Companies</div> </div>
+    <div class="blocks">4<br> <div style="font-size: 15px; font-weight:normal">SKUs</div> </div>
+    <div class="blocks">1<br> <div style="font-size: 15px; font-weight:normal">Services</div> </div>
+    <div class="blocks">4<br> <div style="font-size: 15px; font-weight:normal">Locations</div> </div>  
+<div style="clear:both"></div> -->
+    
+    <div>
+    <% if current_user %>
+      Welcome to NARA, <%=h current_user.name %>! </a>
+    <% else %>
+      Please <b><a href="/login">Login</a></b> or <b><a href="/signup">Create an account</a></b> to use NARA. 
+    <% end %>   
+    </div>
+    <br>
+
+    The first step after creating an account is to add the SKUs (products) that your company supplies and needs:<br><br>
+    <b><a href="/skus/create">Add the products that you supply or need</a><br>
+    <a href="/skus">View Available SKUs</a></b>
+    <br><br>
+
+    After adding them, wait for a week to have your data displayed on the screen on the left. You can then click on the circles to find other companies to sell or buy from, and then click on <i>View this</i> to view that company or product. For now, the left screen shows dummy data from companies in Manila.
+    <hr>
+  <div id="explanation">
+    </div>&nbsp; 
+    </section>
+
+<script>
+var canvas = document.getElementById("neoviz");
+
+  var myGraph; // a reference to the graph to make it available to the outside world
+
+  var p = Processing(canvas); 
+
+  function loadvisualization() {
+    var vizid = document.getElementById("vizid").value 
+    if ( vizid != "") {
+      p.resourceId = vizid; 
+    } else {
+      p.resourceId = window.location.search.substring(1).split("=")[1];
+    }
+    p.resourceId = vizid;
+    p.setup();
+
+    $("#path li").remove();
+
+  };
+
+  $(function() {
+    function canvasSupported() {
+      var canvas_compatible = false;
+      try {
+       canvas_compatible = !!(document.createElement('canvas').getContext('2d')); // S60
+      } catch(e) {
+       canvas_compatible = !!(document.createElement('canvas').getContext); // IE
+      }
+      return canvas_compatible;
+    }
+
+    if (canvasSupported()) {
+  
+      var initialized = false;
+        
+      // init
+      var vizid =  window.location.search.substring(1).split("=")[1];
+      if (vizid) {
+        p.resourceId = vizid;
+      } else {
+        p.resourceId = "1";
+      }
+
+      p.init(p.ajax("/js/pjs/physics.pjs")+p.ajax("/js/pjs/donut.pjs")+p.ajax("/js/pjs/resource.pjs")+p.ajax("/js/pjs/node.pjs")+p.ajax("/js/pjs/edge.pjs")+p.ajax("/js/pjs/graph.pjs")+p.ajax("/js/pjs/network.pjs"));
+      initialized = true;
+      
+      $(window).resize(function(){
+        p.resize();
+        Attributes.adjustHeight();
+      });
+    } else {
+      $('#browser_not_supported').show();
+      $('#explanation').hide();
+    }
+  });
+</script>

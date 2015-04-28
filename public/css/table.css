@@ -1,0 +1,36 @@
+.CSSTableGenerator table{
+    margin-left: 10px; 
+    border-collapse: collapse;
+    border-spacing: 0;
+	width:100%;
+}
+
+.CSSTableGenerator tr:nth-child(odd) { background-color:#bcd7ff; }
+.CSSTableGenerator tr:nth-child(even) { background-color:#ffffff; }
+
+.CSSTableGenerator td{
+	vertical-align:middle;
+	/* border:1px solid #000000; */
+	border-width:0px 1px 1px 0px;
+	text-align:center;
+	padding:3px;
+}
+
+.CSSTableGenerator thead td{
+	background-color:#0784ba;
+	border:0px solid #000000;
+	text-align:center;
+	/*border-width:0px 0px 1px 1px;*/
+	font-weight:bold;
+	color:#ffffff;
+}
+
+/*
+.CSSTableGenerator tr:first-child td{
+	background-color:#0784ba;
+	border:0px solid #000000;
+	text-align:center;
+	border-width:0px 0px 1px 1px;
+	font-weight:bold;
+	color:#ffffff;
+} */

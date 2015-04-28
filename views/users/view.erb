@@ -1,0 +1,198 @@
+<link rel="stylesheet" href="/css/leaflet.css" />
+<script src="/js/leaflet.js"></script>
+<script src="/js/maptimog.js"></script>
+<link rel="stylesheet" href="/css/table.css" />
+<style>
+      #map {
+      float: right;
+      width: 85%;
+      height: 600px;
+    }   
+    .info {
+      padding: 6px 8px;
+      font: 14px/16px Arial, Helvetica, sans-serif;
+      background: white;
+      background: rgba(255,255,255,0.8);
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      border-radius: 5px;
+    }
+    .info h4 {
+      margin: 0 0 5px;
+      color: #777;
+    }
+    .legend {
+      text-align: left;
+      line-height: 18px;
+      color: #555;
+    }
+    .legend i {
+      width: 18px;
+      height: 18px;
+      float: left;
+      margin-right: 8px;
+      opacity: 0.7;
+    }
+</style> 
+
+<br><br>
+<section id="left">
+	<div style="float: left; width: 100%; font-size:2em; font-weight:bold">
+	<%=h @user.name %>
+		<div style="float: right; font-size:1em; font-weight:normal">
+            <a href="/users">Company List</a>
+    		<!--<a href="/users/create">+ Add More users</a> -->
+    	</div>
+	</div>
+<div style="clear: both"></div> <br><br>
+
+<div class="CSSTableGenerator" >
+    <table >
+        <thead>
+            <td></td>
+            <td></td>
+        </thead>
+        <tr>
+            <td>Address:</td>
+            <td><%=h @user.address %></td>
+        </tr>
+        <tr>
+            <td>Phone</td>
+            <td><%=h @user.phone %></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><%=h @user.email %></td>
+        </tr>
+      
+        <tr>
+            <td>Skus Produced</td>
+            <td><% @user.skus.each do |sku| %> <a href="/skus/<%= sku.id %>"> <%= sku.name %></a>, <% end %></td>
+        </tr>
+    </table>
+</div>
+<br>
+    <!-- <div style="float: right; font-size:2em; font-weight:normal">
+    <a href="/users/<%= @user.id %>/edit">Edit user</a> &nbsp;  &nbsp; 
+    <a href="/users/<%= @user.id %>/del">Delete user</a></div>  -->
+<h3>Map</h3><hr>
+<div id="map" style="left:10px; width: 100%; height: 300px; " ></div>
+</section>
+
+<aside>
+  <div class="avatararea">
+    <img src="http://www.vector-eps.com/wp-content/gallery/company-name-vector-logos/company-name-vector-logo2.jpg" width="90%">
+  </div><br>
+  <p><i><%=h @user.description %></i></p>
+  
+</aside>
+
+<script type="text/javascript">
+    var map = L.map('map').setView(new L.LatLng(14.629616, 121.028538),17);
+    //      var map = L.map('map').setView([37.8, -96], 4);
+
+        var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        
+        // control that shows state info on hover
+        var info = L.control();
+
+        info.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info');
+            this.update();
+            return this._div;
+        };
+
+        info.update = function (props) {
+            this._div.innerHTML =  (props ?
+                '<b>' + props.name + '</b><br />' + '<h3>needs</h3>' + 
+                props.demands + '<br/>' + '<h3>supplies</h3>' + props.supplies  + 
+                '<br />' + '<h3>contact</h3>' + props.contact
+                : 'Hover over a location');
+        };
+        info.addTo(map);
+
+        // get color depending on population density value
+        function getColor(d) {
+            return d > 1000 ? '#00ff00' :
+                   d > 500  ? '#BD0026' :
+                   d > 200  ? '#E31A1C' :
+                              '#0000ff';
+        }
+
+        function style(feature) {
+            return {
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                dashArray: '3',
+                fillOpacity: 0.2,
+                fillColor: getColor(feature.properties.density)
+            };
+        }
+
+        function highlightFeature(e) {
+            var layer = e.target;
+
+            layer.setStyle({
+                weight: 5,
+                color: '#666',
+                dashArray: '',
+                fillOpacity: 0.7
+            });
+
+            if (!L.Browser.ie && !L.Browser.opera) {
+                layer.bringToFront();
+            }
+
+            info.update(layer.feature.properties);
+        }
+
+        var geojson;
+
+        function resetHighlight(e) {
+            geojson.resetStyle(e.target);
+            info.update();
+        }
+
+        function zoomToFeature(e) {
+            map.fitBounds(e.target.getBounds());
+        }
+
+        function onEachFeature(feature, layer) {
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+                click: zoomToFeature
+            });
+        }
+
+        geojson = L.geoJson(statesData, {
+            style: style,
+            onEachFeature: onEachFeature
+        }).addTo(map);
+
+        var legend = L.control({position: 'bottomright'});
+
+        legend.onAdd = function (map) {
+            
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = [0, 10, 20, 50],
+                labels = [],
+                from, to;
+
+            for (var i = 0; i < grades.length; i++) {
+                from = grades[i];
+                to = grades[i + 1];
+
+                labels.push(
+                    '<i style="background:' + getColor(from + 1) + '"></i> ' +
+                    from + (to ? '&ndash;' + to : '+'));
+                }
+
+            // div.innerHTML = 'Need Indicator<br>' + labels.join('<br>');
+            // return div;
+        };
+
+        legend.addTo(map);
+    </script>

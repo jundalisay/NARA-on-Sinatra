@@ -1,0 +1,26 @@
+<br>
+<h2>Create Company</h2>
+<br/>
+<section class="left" style="margin-left: 10px;">
+	 <form action="/companies" method="post" role="form">
+    <div class="form-group">
+        <label for="company_name">Company Name:</label>&nbsp; 
+        <input id="company_name" class="form-control" name="company[name]" type="text" value="<%= @company.name %>" style="width=90%"/>
+    <br><br>
+    <label for="companies_description">Description:</label> &nbsp; &nbsp; &nbsp; &nbsp; 
+        <textarea id="company_description" name="company[description]" class="form-control" ><%= @company.description %></textarea>
+    <br><br>
+        <label for="company_address">Address:</label> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      <input id="company_address" class="form-control" name="company[address]" type="text" value="<%= @company.address %>" style="width=90%"/>
+    <br><br>
+    </div>
+    <button type="submit" class="btn btn-success">Create!</button>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    <br>
+  </form>
+  </div>
+
+</section>
+    <form action="javascript:myFunction(); return false;">
+      <button onclick="alert('Sorry, feature not ready yet.');">Upload Image</button>      
+    </form>

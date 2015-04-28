@@ -1,0 +1,69 @@
+<style type="text/css">
+  form  { display: table; }
+  p     { display: table-row;  }
+  label { display: table-cell; }
+  input { display: table-cell; }
+  select { display: table-cell; }
+ </style>
+
+<h1>Create service</h1>
+<br/>
+
+<section class="left" style="margin-left: 10px;">
+	<form action="/services" method="post" role="form">
+    <p>
+ 				<label for="service_name">Service Name</label>
+   			<input id="service_name" class="form-control" name="service[name]" type="text" value="<%= @service.name %>" style="width=90%"/>
+    </p>
+ 		<br>
+		<p>
+      <!-- based on IRS --> 
+      <label for="service_quantity">Classification:</label>&nbsp; 
+	   <select id="service_classification" name="service[classification]">
+  		<option value="agri">Agriculture, Forestry, Fishing and Hunting</option>
+  		<option value="mining">Mining</option>
+  		<option value="construction">Construction</option>
+  		<option value="transportation">Transportation</option>
+  		<option value="publishing">Publishing, Broadcasting, and Motion Pictures</option>
+  		<option value="finance">Finance and Insurance</option>
+  		<option value="realestate">Real Estate and Leasing</option>
+  		<option value="management">Management</option>
+  		<option value="education">Educational</option>
+  		<option value="healthcare">Medical and Social Services</option>
+  		<option value="arts">Arts, Entertainment, and Recreation</option>
+  		<option value="hrm">food service and accomodation</option>
+  		<option value="others">Others</option>
+  		<option value="pro">Professional Services</option>
+  		<option value="footwear">Footwear</option>
+  		<option value="fuels">Fuels</option>
+  		<option value="healthcare">Healthcare</option>
+		</select>
+  </p>
+ 	<br>
+  
+  <p>
+ 		<label for="service_description">Description:</label> &nbsp;
+   	<textarea id="service_description" name="service[description]" class="form-control" ><%= @service.description %></textarea>
+  </p>
+  <br>
+  
+  <p>
+    <label for="service_quantity">Quantity:</label> &nbsp; 
+      <input id="service_quantity" class="form-control" name="service[quantity]" type="number" value="<%= @service.quantity %>" style="width=90%"/>
+  </p>
+  <br>
+  
+  <p>
+    <label for="service_barcode">Barcode:</label> &nbsp; 
+      <input id="service_barcode" class="form-control" name="service[barcode]" type="text" value="<%= @service.barcode %>" style="width=90%"/>
+  </p>
+  <br>
+  
+    <button type="submit" class="btn btn-success">Create!</button>
+ 		<br>
+	</form>
+   
+   <%= display_error %> 
+
+</section>
+

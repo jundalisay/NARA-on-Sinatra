@@ -1,0 +1,123 @@
+<link rel="stylesheet" href="/css/table.css" />
+<script>
+$(document).ready(function(){
+$('.layerspecifysupplier').hide();
+$('.layergruppe1').hide();
+$('.layergruppe2').hide();
+    $('input[type=radio]').change(function(e) 
+        {
+        if (this.id == 'gruppe1') {
+            $('.layergruppe1').show();
+            $('.layergruppe2').hide();
+        } else if (this.id == 'gruppe2') {
+            $('.layergruppe1').hide();
+            $('.layergruppe2').show();
+        }  
+      });
+    $('input[type=radio]').change(function(e) 
+        {
+        if (this.id == 'specify1') {
+            $('.layerspecifysupplier').show();
+        } else if (this.id == 'specify2') {
+            $('.layerspecifysupplier').hide();
+        }  
+      });
+});
+</script>
+
+<section id="left">
+<h1>Initiate A New Trade</h1><br>
+
+<form method="post" action="/trades">
+
+    <p>My Company wants to get &nbsp;
+    
+    <select id="trade_skuin1" name="trade[skuin1]">
+        <% @theirskus.each do |sku| %>
+            <option value="<%= sku.name %>"><%= sku.name %></option>
+        <% end %> 
+    </select>
+        
+        at an amount of: &nbsp; <input id="trade_qin1" class="form-control" name="trade[qin1]" type="number" size='5'>&nbsp; units
+        </p>
+
+    <p>
+        <input type="radio" name="#" id="specify1"> Let me choose the Supplier
+        <input type="radio" name="#" id="specify2"> Let NARA choose the Supplier(s)
+    </p>
+
+<div class="layerspecifysupplier">
+    <p> &nbsp; from &nbsp;
+    <select id="recipient2" name="trade[recipient2]">
+        <option value=""></option>
+        <% @suppliers.each do |user| %>
+        <option value="<%= user.name %>"><%= user.name %></option>
+        <% end %> 
+    </select>
+    </p>
+</div>
+<br>
+
+    <p>We will exchange
+            <input type="radio" name="trade[trademethod]" value="cash" id="gruppe1">Cash 
+            <input type="radio" name="trade[trademethod]" value="barter" id="gruppe2">Our own SKUs
+    </p>
+    
+<div class="layergruppe1">
+    <p><input id="trade_qout1" class="form-control" name="trade[qout1]" type="number">&nbsp; (in local currency)
+    </p>
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="QMMX34ZMV7X4Q">
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+</form>
+    <p>Note that this does not include any taxes due to government</p>
+</div>
+
+<div class="layergruppe2">
+    <p>
+    <select id="trade_skuout1" name="trade[skuout1]">
+        <% @ourskus.each do |sku| %>
+        <option value="<%= sku.name %>"><%= sku.name %></option>
+        <% end %>
+    </select>
+    &nbsp; at an amount of:
+    <input id="barter" name="trade[qout1]" type="number">units
+    </p>
+    <p>We will pay a 1% NARA tax of <span id="btax1"></span>&nbsp;units to the local NARA authority.</p><br>
+    <p>Important notes:
+        <ul><li>This amount does not include taxes due to government.</li>
+            <li>In case the other company does not want your SKU, NARA will automatically include other companies which might be able to fulfill this trade request.</li>
+        </ul>
+    </p>
+</div>
+<br>
+
+    <p>
+        <input id="trade_btax" class="form-control" name="trade[btax1]" value="btax1" type="hidden">
+        <input id="trade_tradestatus" class="form-control" name="trade[globalstatus]" value="new" type="hidden">
+        <button type="submit" class="btn btn-success">Create Trade Request!</button>
+    </p>
+</form>
+</section>
+
+<%= display_error %>
+
+<aside>
+    <p>Enter the details of the trade you want to make.</p> 
+    <p>To fund NARA, a small NARA tax, to be paid in kind, will be added to every non-cash transaction. This will pay for the maintenance and enforcement of trade contracts. For now, this is just a concept as it is not enforceable yet.</p>
+    <p>The payment can be done in two ways:</p>
+    <ul><li>If the trade amount is big and if there is a local NARA representative to receive the SKUs, then the payment will be delivered with the fulfillment of the trade contract.</li>
+    <li>If the trade amount is small or if there is no local NARA representative, the SKUs will not be paid immediately. Instead, it will be recorded in the balance sheet as <i>'SKUs in arrears'</i> under assets and <i>'Trade Payables'</i> under liabilities, and not in the income statement. It will be paid eventually when NARA is established in the local society.</ul>
+    <p>Each trade can have up to 5 trading companies</p>
+</aside>
+        
+<script>
+$('#barter').bind('input', function() {
+    var barter = document.getElementById("barter").value;
+    var b = barter * 0.01;
+    var bshort = Math.round(b);
+    btax1.innerHTML = bshort;
+});
+</script>

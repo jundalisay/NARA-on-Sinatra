@@ -1,0 +1,80 @@
+	<script src="/js/jquery-1.11.2.min.js"></script>
+	<script src="/js/jquery-ui.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
+	<link rel="stylesheet" href="http://paramquery.com/Content/css/pqgrid.min.css" />
+	
+<h4>SKUs in Timog Sector, Quezon City</h4>
+<body>
+	<aside>
+	<p>
+		<b>SKUS</b> or 'stock keeping units' are measuring units for products and services in NARA. 
+    <br><br>
+        This page shows the SKUs available within your <b><a href="/trade">local trade network</a></b>, which NARA dynamically organizes into sectors. 
+    <br><br>
+        Sectors are areas where trades are concentrated. As trade often crosses politcal boundaries, NARA creates new economic areas based on how trade actually flows and superimposes them on existing areas. In this example, the high economic activity in Timog Ave causes NARA to classify the companies near the area under the <i>Timog Sector</i>. 
+    <br><br>
+    	Companies will enter the products or services that they have and those that they want into this page. As the database fills, NARA will then connect the companies in the sector with each other into a trade network, matching their needs and wants.
+    </p>
+	</aside>
+
+<form style="margin: 10px">
+    There are now <span data-bind='text: gifts().length'>&nbsp;</span> SKU(s)
+    <table data-bind='visible: gifts().length > 0'>
+        <thead>
+            <tr>
+                <th>SKU name</th>
+                <th>Quantity</th>
+                <th>Company</th>
+                <th />
+            </tr>
+        </thead>
+        <tbody data-bind='foreach: gifts'>
+            <tr>
+                <td><input size='15' class='required' data-bind='value: name, uniqueName: true' /></td>
+                <td><input size='5' class='required number' data-bind='value: price, uniqueName: true' /></td>
+                <td><input size='10' class='required' data-bind='value: company, uniqueName: true' /></td>
+                <td><a href='#' data-bind='click: $root.removeGift'>Delete</a></td>
+            </tr>
+        </tbody>
+    </table>
+ 
+    <button data-bind='click: addGift'>Add SKU</button>
+    <!-- <button data-bind='enable: gifts().length > 0' type='submit'>Submit</button> -->
+</form>
+
+
+<script>
+var SKUModel = function(gifts) {
+    var self = this;
+    self.gifts = ko.observableArray(gifts);
+ 
+    self.addGift = function() {
+        self.gifts.push({
+            name: "",
+            price: "",
+            company: "",
+        });
+    };
+ 
+    self.removeGift = function(gift) {
+        self.gifts.remove(gift);
+    };
+ 
+    self.save = function(form) {
+        alert("Could now transmit to server: " + ko.utils.stringifyJson(self.gifts));
+        // To actually transmit to server as a regular form post, write this: ko.utils.postJson($("form")[0], self.gifts);
+    };
+};
+ 
+var viewModel = new SKUModel([
+    { name: "advertising_radio", price: "1000", company: "ABSCBN" },
+    { name: "advertising_tv", price: "1000", company: "ABSCBN" },
+    { name: "broadcasting_radio", price: "1000", company: "ABSCBN" },
+    { name: "broadcasting_tv", price: "1000", company: "ABSCBN" },
+    { name: "fried_chicken", price: "1000", company: "KFC" },
+]);
+ko.applyBindings(viewModel);
+ 
+// Activate jQuery Validation
+$("form").validate({ submitHandler: viewModel.save });
+</script>

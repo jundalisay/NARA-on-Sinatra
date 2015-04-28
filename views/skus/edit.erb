@@ -1,0 +1,119 @@
+<br>
+<h1>Edit SKU</h1>
+<br/>
+<div style="margin-left: 10px">
+<form action="/skus/<%= @sku.id %>" method="post">
+	<div class="form-group">
+		<input type="hidden" name="_method" value="put" />
+  		<label for="sku_name">SKU Name:</label>&nbsp; &nbsp; &nbsp; &nbsp;
+  		<input id="sku_name" class="form-control" name="sku[name]" type="text" value="<%=h @sku.name %>" />
+ 	</div>
+ 	<br>
+<label for="sku_quantity">Classification:</label> &nbsp;
+	<select id="sku_classification" name="sku[classification]">
+      <option value="<%= @sku.classification %>"><%= @sku.classification %></option>
+  		<option value="arts">Arts, Crafts, Needlework</option>
+  		<option value="audio">Audio Visual and Photography </option>
+  		<option value="automotive">Automotive</option>
+  		<option value="baby">Baby Care</option>
+  		<option value="beauty">Beauty, Personal Care, and Hygiene</option>
+  		<option value="building">Building Products</option>
+  		<option value="camping">Camping</option>
+  		<option value="cleaning">Cleaning Products</option>
+  		<option value="clothing">Clothing</option>
+  		<option value="communications">Communications</option>
+  		<option value="computers">Computers</option>
+  		<option value="cross">Cross Segment</option>
+  		<option value="electrical">Electrical Supplies</option>
+  		<option value="food">Food, Beverage. and Tobacco</option>
+  		<option value="footwear">Footwear</option>
+  		<option value="fuels">Fuels</option>
+  		<option value="healthcare">Healthcare</option>
+		<option value="appliances">Home Appliances</option>
+		<option value="horticulture">Horticulture Plants</option>
+  		<option value="furnishings">Household and Office Furnishings</option>
+  		<option value="kitchen">Kitchen Merchandise</option>
+  		<option value="garden">Lawn and Garden Supplies</option>
+  		<option value="animals">Live Animals</option>
+		<option value="lubricants">Lubricants</option>
+		<option value="personal">Personal Accessories</option>
+		<option value="pet">Pet Care</option>
+		<option value="plumbing"> Plumbing, Heating, Ventilation, and Air Conditioning</option>
+		<option value="print">Printed Materials</option>
+		<option value="safety">Safety and Protection</option>
+		<option value="security">Security and Surveillance</option>
+		<option value="services">Services</option>
+		<option value="sports">Sports Equipment</option>
+		<option value="stationery">Stationery and Office Supplies and Machinery</option>
+		<option value="storage">Storage and Haulage Containers</option>
+		<option value="tools_hand">Tools and Equipment (Hand)</option>
+		<option value="tools_power">Tools and Equipment (Power)</option>
+		<option value="toys">Toys and Games</option>
+  	</select>	<br>
+
+  <p>
+      <label></label>
+      <input type="radio" name="sku[need]" value="supplier" id="gruppe1">My company supplies this SKU<br>
+      <input type="radio" name="sku[need]" value="needer" id="gruppe2">My company needs this SKU
+  </p>
+
+  <p>
+    <label for="sku_description">Description:</label> &nbsp;
+    <textarea id="sku_description" name="sku[description]" class="form-control" ><%= @sku.description %></textarea>
+  </p>
+
+
+<div class="layergruppe1">
+  <p>
+    <label for="sku_quantity">Quantity in stock:</label> &nbsp;
+      <input id="sku_quantity" class="form-control" name="sku[quantity]" type="number" value="<%= @sku.quantity %>" style="width=90%"/>
+  </p>
+  <p>
+    <label for="sku_barcode">Barcode:</label> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+      <input id="sku_barcode" class="form-control" name="sku[barcode]" type="text" value="<%= @sku.barcode %>" style="width=90%"/>
+  </p>
+</div>
+
+<div class="layergruppe2">
+<p>
+    <label for="sku_quantity">Quantity needed:</label> &nbsp;
+      <input id="sku_quantity" class="form-control" name="sku[quantity]" type="number" value="<%= @sku.quantity %>" style="width=90%"/>
+  </p>
+</div>
+
+  <!-- hidden field for company name -->
+  <p>
+      <input id="sku_barcode" class="form-control" name="sku[user_id]" type="hidden" value="<%=h current_user.id %>" style="width=90%"/>
+  </p>
+  <p>Unit of Measure: &nbsp; &nbsp;<input id="sku_measure" name="sku[measure]" value="<%=h @sku.measure %>" type="text"></p>
+  <br>
+
+    <button type="submit" class="btn btn-success">Save Changes</button>
+    
+  </form>
+
+  <a href="/skus/<%= @sku.id %>">
+  <input type="button" value="Cancel" />
+</a>
+  <br>   
+
+   <%= display_error %> 
+
+<script>
+$(document).ready(function(){
+$('.layergruppe1').hide();
+$('.layergruppe2').hide();
+    $('input[type=radio]').change(function(e) 
+                                  {
+        if (this.id == 'gruppe1') {
+            $('.layergruppe1').show();
+            $('.layergruppe2').hide();
+        } else if (this.id == 'gruppe2') {
+            $('.layergruppe1').hide();
+            $('.layergruppe2').show();
+        }  
+      });
+});
+</script>
+
+</section>

@@ -1,0 +1,57 @@
+<style type="text/css">
+	form  { display: table; }
+	p     { display: table-row;  }
+	label { display: table-cell; }
+	input { display: table-cell; }
+ </style>
+
+<h1>Signup</h1>
+<br>
+<section id="left">
+<form action="/signup" method="post" role="form">
+	<p>
+		<label>Company Name * : </label>
+		<input class="form-control" name="user[name]" type="text" style="width=90%"/>
+		<label>&nbsp; &#x25c0; Your company's name will be used for log in</label>
+	</p><br>
+	
+	<p>
+		<label>Password * :</label>
+		<input class="form-control" name="user[password]" type="password" style="width=90%"/>
+	 	<label>&nbsp; &#x25c0; &nbsp; Use a non-personal password, in case others need to access the company account</label>
+	</p><br>
+
+	<p>
+		<label>Confirm Password * :</label>
+		<input class="form-control" name="user[password_confirmation]" type="password" style="width=90%"/>
+		<label></label>
+	</p><br>
+
+	<p>
+		<label>	Email * : </label>
+		<input class="form-control" name="user[email]" type="text" style="width=90%"/>
+		<label>&nbsp; &#x25c0; &nbsp; This is just for information purposes, we won't send anything here. The other fields below are not required.</label>
+	</p><br>
+
+	<p>
+		<label>Phone: </label>
+		<input class="form-control" name="user[phone]" type="text" style="width=90%"/>
+	</p><br>
+
+	<p>
+		<label>Address: </label>
+		<textarea name="user[address]" rows="2" ></textarea>
+	</p><br>
+
+	<p>
+		<label>Business Description: &nbsp;  </label>
+		<textarea name="user[description]" rows="1" >e.g. vegetable seller</textarea>
+	</p><br>
+
+	<input type="submit" value="Signup!">
+	<br><br>
+	* needed
+	
+</form>
+</section>
+<%= display_error %>

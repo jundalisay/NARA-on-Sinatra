@@ -1,0 +1,100 @@
+<link rel="stylesheet" href="/css/table.css" />
+<br><br>
+<section id="left">
+	<div style="float: left; width: 100%; font-size:2em; font-weight:bold">
+	My Trade List
+		<div style="float: right; font-size:1em; font-weight:normal">
+    		<a href="trades/create">+ New Trade</a>
+    </div>
+	</div>
+<div style="clear: both"></div> <br>
+
+<div class="CSSTableGenerator" >
+  <table >
+        <thead>
+            <td>Trade<br> Number</td>
+            <td>Trade<br> Initiated By</td>
+            <td>SKU<br> Offered</td>
+            <td>Offer<br> Quantity</td>
+            <td>SKU<br> Needed</td>
+            <td>Needed<br>Quantity</td>
+            <td>Status</td>
+            <td>Created on</td>
+        </thead>
+
+<% @trades.each do |trade| %>
+        <tr>
+            <td><a href="/trades/<%= trade.id %>"><%=h trade.id %></a></td>
+            <td><a href="/users/<%= trade.user_id %>"><%=h trade.user.name %></a></td>
+            <td><%=h trade.skuout1 %></a></td>
+            <td><%=h trade.qout1 %></a></td>
+            <td><%=h trade.skuin1 %></a></td>
+            <td><%=h trade.qin1 %></a></td>
+            <td><b><a href="/trades/<%= trade.id %>"><%=h trade.globalstatus %></a></b></td>
+            <td><%=h trade.created_at %></a></td>
+        </tr>
+        <% end %>
+    </table>
+</div>
+</section>
+
+<aside>
+  Sample NewsFeed:
+  <section id="feed" role="complementary">
+    <div class="blocks">50<br> <div style="font-size: 15px; font-weight:normal"><small>Incoming Trade<br> Requests</small></div> </div>
+    <div class="blocks">12<br> <div style="font-size: 15px; font-weight:normal"><small>Outgoing Trade</small><br> Requests</div> </div>
+    <div class="blocks">3<br> <div style="font-size: 15px; font-weight:normal"><small>In Process</small></div> </div>
+    <div style="clear:both"></div>
+    <hr>
+    <br>
+    
+  <div class="avatararea">
+    <div class="avatarheader">
+      <div class="avatar"><img src="http://upload.wikimedia.org/wikipedia/it/thumb/5/57/300px-KFC_logo_svg.png/100px-300px-KFC_logo_svg.png" height="42" width="42">
+      </div>
+        <a href="#"><b>KFC </b></a>wants to offer:<br>
+        <a href="#"><b>Double Down </b></a>for:<br>
+        <a href="#"><b>TV Advertising </b></a><br>
+        <small>1 hour ago</small><br><br>
+    </div>
+  </div>
+  <br>
+
+  <div class="avatararea">
+    <div class="avatarheader">
+      <div class="avatar"><img src="http://img1.wikia.nocookie.net/__cb20130324133809/logopedia/images/thumb/a/ad/HP_logo_2012.svg/100px-HP_logo_2012.svg.png" height="42" width="42">
+      </div>
+        <a href="#"><b>HP </b></a>wants to offer:<br>
+        <a href="#"><b>Blade Servers </b></a>for:<br>
+        <a href="#"><b>TV Advertising </b></a><br>
+        <small>1 hour ago</small><br><br>
+    </div>
+  </div>
+  <br>
+
+ <div class="avatararea">
+    <div class="avatarheader">
+      <div class="avatar"><img src="https://lyndawallace.com/wp-content/uploads/2010/11/johnson-and-johnson-logo.jpg" height="42" width="42">
+      </div>
+        <a href="#"><b>J&J </b></a>wants to offer:<br>
+        <a href="#"><b>Baby Oil </b></a>for:<br>
+        <a href="#"><b>TV Advertising </b></a><br>
+        <small>1 hour ago</small><br><br>
+    </div>
+  </div>
+  <br>
+
+    <div class="avatararea">
+    <div class="avatarheader">
+      <div class="avatar"><img src="http://www.webacadabra.com/wp-content/uploads/2015/01/apple-logo.png" height="42" width="42">
+      </div>
+        <a href="#"><b>Apple </b></a>wants to offer:<br>
+        <a href="#"><b>iPhones </b></a>for:<br>
+        <a href="#"><b>TV Advertising </b></a><br>
+        <small>1 hour ago</small><br><br>
+    </div>
+  </div>
+  <br>
+
+</section>
+</aside>

@@ -1,0 +1,69 @@
+<link rel="stylesheet" href="/css/table.css" />
+<br><br>
+<section id="left">
+	<div style="float: left; width: 100%; font-size:2em; font-weight:bold">
+	<%=h @service.name %>
+		<div style="float: right; font-size:1em; font-weight:normal">
+    		<a href="/services/create">+ Add More services</a>
+    	</div>
+	</div>
+<div style="clear: both"></div> 
+<br><br>
+
+<div class="CSSTableGenerator" >
+    <table >
+        <thead>
+            <td></td>
+            <td></td>
+        </thead>
+
+        <tr>
+            <td>Classification</td>
+            <td><%=h @service.classification %></td>
+        </tr>
+
+        <tr>
+            <td>Description</td>
+            <td><%=h @service.description %></td>
+        </tr>
+        <tr>
+            <td>Quantity:</td>
+            <td><%=h @service.quantity %></td>
+        </tr>
+            <tr>
+            <td>Barcode:</td>
+            <td><%=h @service.barcode %></td>
+        </tr>
+        <tr>
+            <td>Company:</td>
+            <td><a href="/users/<%= @service.user.id %>"><%=h @service.user_id %></td>
+        </tr>
+    </table>
+</div>
+<br>
+    <% if current_user.name == @service.user.name %>
+        <div style="float: right; font-size:2em; font-weight:normal">
+            <a href="/services/<%= @service.id %>/edit">Edit service</a> &nbsp;  &nbsp;
+            <a href="/services/<%= @service.id %>/del">Delete service</a>
+        </div>
+    <% else %>
+    <% end %>
+    
+</section>
+
+<aside>
+  <section id="feed" role="complementary">
+  <p>Services are currently not tradable in NARA as service contracts are more complicated than ordinary trade contracts.</p>
+    <p>However, this services list can help companies to look for services from NARA-registered companies.</p>
+  <br>
+  <p>Sample Gallery:</p><br>
+    
+  <img src="http://jeffsalem.canadianmusician.com/wp-content/uploads/2014/01/singer.jpg" width="48%">
+  <img src="http://jeffsalem.canadianmusician.com/wp-content/uploads/2014/01/singer.jpg" width="48%">
+  <img src="http://jeffsalem.canadianmusician.com/wp-content/uploads/2014/01/singer.jpg" width="48%">
+  <img src="http://jeffsalem.canadianmusician.com/wp-content/uploads/2014/01/singer.jpg" width="48%">
+  <img src="http://jeffsalem.canadianmusician.com/wp-content/uploads/2014/01/singer.jpg" width="48%">
+  <img src="http://jeffsalem.canadianmusician.com/wp-content/uploads/2014/01/singer.jpg" width="48%"><br>
+
+</section>
+</aside>
