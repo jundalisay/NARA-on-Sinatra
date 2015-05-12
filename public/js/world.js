@@ -1,6 +1,6 @@
 var nepal = {"type":"FeatureCollection","features":[
 {"type":"Feature","id":"NPL","properties":
-{"name":"Nepal", "damage": "100", "popupContent": "<a href='#'>Earthquake</a> <br> <a href='#'>Avalanche</a>",
+{"name":"Nepal", "damage": "100", "popupContent": "<a href='/mapdisnepal'>Earthquake</a> <br> Avalanche",
     "style": {
             weight: 2,
             color: "#999",

@@ -1,0 +1,155 @@
+<link rel="stylesheet" href="/css/leaflet.css" />
+<script src="/js/mapdisbesi.js"></script>
+<!-- <script src="/js/ph.js"></script> -->
+<script src="/js/leaflet.js"></script>
+  
+<style>
+      #map {
+      float: right;
+      width: 85%;
+      height: 600px;
+      top:10px;
+    }
+    
+    .info {
+      padding: 6px 8px;
+      font: 14px/16px Arial, Helvetica, sans-serif;
+      background: white;
+      background: rgba(255,255,255,0.8);
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      border-radius: 5px;
+    }
+    .info h4 {
+      margin: 0 0 5px;
+      color: #777;
+    }
+
+    .legend {
+      text-align: left;
+      line-height: 18px;
+      color: #555;
+    }
+    .legend i {
+      width: 18px;
+      height: 18px;
+      float: left;
+      margin-right: 8px;
+      opacity: 0.7;
+      }
+      }
+</style>   
+
+<title>Disaster Map: Philippines</title>
+.
+<div id="map" style="width: 100%; height: 95%"></div>
+
+  <section id="bottomrightsmall" role="complementary"><br>
+    
+  <div class="avatararea">
+    <div class="avatarheader">
+      <div class="avatar"><img src="http://www.redcross.int/EN/common/IMAGES/home/icrc_logo.gif" height="42" width="42">
+      </div>
+        <a href="#"><b>Red Cross</a>:<a href="#"> Updated Relief Needs</b></a><br>
+        <small>1 hour ago</small>
+    </div><br>
+    <li>Besisahar: X</li>
+    <li>Gorkha: Y</li>
+    <li>Kathmandu: Z</li>
+    <a href="#"><small>see more</small></a><br>
+    <small><a href="#">Promote</a> - <a href="#">Comment</a> - <a href="#">Share</a></small>
+  </div>
+  <br><br>
+</section>
+
+<script type="text/javascript">
+  var map = L.map('map').setView(new L.LatLng(28.23, 84.375),17);
+  //    var map = L.map('map').setView([37.8, -96], 4);
+
+  var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    
+  // control that shows state info on hover
+  var info = L.control();
+
+  info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info');
+    this.update();
+    return this._div;
+  };
+
+info.update = function (props) {
+  this._div.innerHTML =  (props ?
+  '<b>' + props.name + '</b><br>' + props.org + '<h3>needs</h3>' + 
+  props.demands + '<br/>' + '<h3>supplies</h3>' + props.supplies  + 
+  '<br />' + '<h3>contact</h3>' + props.contact + '<br><br><button>Click building to send something!</button>'
+  : 'Hover over a location');
+};
+info.addTo(map);
+
+  // get color depending on population density value #49ff45'
+    function getColor(d) {
+      return d > 100 ? '#800026' :
+             d > 90  ? '#BD0026' :
+             d > 70  ? '#E31A1C' :
+             d > 50  ? '#FC4E2A' :
+             d > 30   ? '#FD8D3C' :
+             d > 20   ? '#FEB24C' :
+             d > 1   ? '#f2d887' :
+                      '#0000ff' ; 
+    }
+
+    function style(feature) {
+      return {
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '1',
+        fillOpacity: 0.5,
+        fillColor: getColor(feature.properties.damage)
+      };
+    }
+
+    function highlightFeature(e) {
+      var layer = e.target;
+
+      layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.9
+      });
+
+      if (!L.Browser.ie && !L.Browser.opera) {
+        layer.bringToFront();
+      }
+
+      info.update(layer.feature.properties);
+    }
+
+    var geojson;
+
+    function resetHighlight(e) {
+      geojson.resetStyle(e.target);
+      info.update();
+    }
+
+    function zoomToFeature(e) {
+      map.fitBounds(e.target.getBounds());
+    }
+
+    function onEachFeature(feature, layer) {
+      layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: zoomToFeature
+      });
+    }
+
+    geojson = L.geoJson(statesData, {
+      style: style,
+      onEachFeature: onEachFeature
+    }).addTo(map)
+        .bindPopup("<b>This building needs something</b><br><a href='/donations'>Send that something!</a>")
+            .openPopup();;
+  </script>

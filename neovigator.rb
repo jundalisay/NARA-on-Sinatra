@@ -544,6 +544,16 @@ get '/services' do
     erb :mapdismamasapano
   end
 
+  get '/mapdisnepal' do
+    erb :"map/mapdisnepal"
+  end
+
+  get '/mapdisbesi' do
+    erb :"map/mapdisbesi"
+  end
+
+  
+
 ######### DONATIONS CONTROLLERS ##############################################
 
   get '/donations' do
@@ -602,12 +612,16 @@ get '/services' do
     erb :about
   end
 
+  get '/intro' do
+    erb :intro, :layout => false
+  end
+
  #  get '/notif' do
  #   "no messages!"
   #end
 
   get '/log' do
-    erb :log
+    erb :logmapdis
   end
 
   get '/google0ee0d5eabec02fad.html' do
