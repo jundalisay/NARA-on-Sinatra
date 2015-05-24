@@ -16,7 +16,7 @@ var geoJson = [
        "marker-symbol": "star",
         "marker-color": "#ff8888",
         "marker-size": "large",
-	"image": "http://img3.wikia.nocookie.net/__cb20130821014824/logopedia/images/0/03/Jollibee_ph_logo.jpeg",
+	     "image": "http://img3.wikia.nocookie.net/__cb20130821014824/logopedia/images/0/03/Jollibee_ph_logo.jpeg",
         "opening_hours": "24/7"
       },
       "geometry": {
@@ -40,7 +40,8 @@ var geoJson = [
        "marker-symbol": "star",
         "marker-color": "#ff8888",
         "marker-size": "large",
-        "name": "Mercury Drug"
+        "name": "Mercury Drug",
+        "image": "http://jumu-moskau.com/wp-content/uploads/2014/06/mercury-drugstore-logo.jpg",
       },
       "geometry": {
         "type": "Point",
@@ -64,7 +65,8 @@ var geoJson = [
        "marker-symbol": "star",
         "marker-color": "#ff8888",
         "marker-size": "large",
-        "name": "UCPB"
+        "name": "UCPB",
+        "image": "http://upload.wikimedia.org/wikipedia/commons/thumb/3/35/UCPB_logo.svg/100px-UCPB_logo.svg.png",
       },
       "geometry": {
         "type": "Point",

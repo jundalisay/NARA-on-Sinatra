@@ -11,12 +11,7 @@
 
 <section id="bottomright" role="complementary">
     <p>Adam Smith's system of resource allocation also deals with <b><a href="http://www.csmonitor.com/2005/0118/p09s02-coop.html" target="_blank">Disaster relief</a></b>. The main difference between trade and disaster relief is that the latter does not give anything back, though the contracts and logistics may be the same.</p>
-    <p>Check out third party charity monitors to see the rating of the various relief groups:<br>
-    <b>
-    <a href="http://www.charitynavigator.org/">Charity Navigator</a><br>
-    <a href="http://www.guidestar.org/">Guide Star</a>
-  </b>
-  </p>
+    <p>Click on the areas in red to find out the ongoing disasters for that area</p>
 <hr>
 <p>This sample newsfeed gives real-time updates</p>
 
@@ -39,12 +34,12 @@
 <script type="text/javascript">
 L.mapbox.accessToken = 'pk.eyJ1IjoianVuZGFsaXNheSIsImEiOiI4SExFRGZzIn0.HqmE2skQkKkhqfMnUDT1Qg';
 
-var map = L.mapbox.map('map', 'jundalisay.m1n03p4e').setView(new L.LatLng(17, 18), 3);
+var map = L.mapbox.map('map', 'jundalisay.m1n03p4e').setView(new L.LatLng(17, 80), 3);
 
     L.tileLayer('jundalisay.m1n03p4e').addTo(map);
 
     function onEachFeature(feature, layer) {
-      var popupContent = feature.properties.name + "<br>" ; 
+      var popupContent = "<b>" + feature.properties.name + "</b><br>" ; 
       if (feature.properties && feature.properties.popupContent) {
         popupContent += feature.properties.popupContent;
       }

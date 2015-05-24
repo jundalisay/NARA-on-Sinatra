@@ -15,7 +15,7 @@ var nepal = {"type":"FeatureCollection","features":[
 
 var india = {"type":"FeatureCollection","features":[
 {"type":"Feature", "properties":
-	{"name":"India", "damage": "80", "popupContent": "<a href='#'>Earthquake</a>",
+	{"name":"India", "damage": "80", "popupContent": "Earthquake",
     "style": {
             weight: 2,
             color: "#999",

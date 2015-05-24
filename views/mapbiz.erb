@@ -6,7 +6,7 @@
 <body>
 
 <div id='my-legend' style='display: none;'>
-  Each marker represents a company. Click on each to see the company's products or needs, then click on the Company name to see its profile in NARA.
+  Each marker represents a company. Click on each to see the company's products or needs, then click on the Company name to see its profile in NARA or click on Create Trade to make an offer or request for the products needed or made by it. 
 </div>
 
 <div id='map' style="height: 95%; top:50px"></div>
@@ -25,7 +25,7 @@ myLayer.on('layeradd', function(e) {
 
     // Create custom popup content
     var popupContent =  '<img src="' + feature.properties.image + '" /><br>' + '<a target="_blank" class="popup" href="/users/' + feature.properties.urlid + '">' + feature.properties.name + '</a><br>' +  'Needs:' +
-                            feature.properties.needs + '<br>Supplies:' + feature.properties.supplies;
+                            feature.properties.needs + '<br>Supplies:' + feature.properties.supplies + '<br><a href="/trades/create"><button>Create Trade</button></a>' ;
 
     // http://leafletjs.com/reference.html#popup
     marker.bindPopup(popupContent,{
