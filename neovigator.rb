@@ -620,10 +620,15 @@ get '/services' do
  #   "no messages!"
   #end
 
+  get '/metrics' do
+    erb :metrics
+  end
+
   get '/log' do
     erb :logmapdis
   end
 
+  # for Google webmaster
   get '/google0ee0d5eabec02fad.html' do
     File.read(File.join('public', 'google0ee0d5eabec02fad.html'))
   end
