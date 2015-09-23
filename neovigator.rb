@@ -374,7 +374,7 @@ end
 
   get "/skus/:id" do
     @sku = Sku.find(params[:id])
-    # user = @sku.user.find_by(:user_id)
+
     @name = @sku.name
 #    session[:skutobetraded] = @sku.id  #to store the sku between views
     erb :"skus/view"
@@ -625,7 +625,7 @@ get '/services' do
   end
 
   get '/log' do
-    erb :logmapdis
+    erb :log
   end
 
   # for Google webmaster
