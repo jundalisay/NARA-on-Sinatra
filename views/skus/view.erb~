@@ -47,17 +47,6 @@
 </div>
 <br>
 
-  <% if current_user.id == @sku.user_id %>
-    <div style="float: right; font-size:2em; font-weight:normal">
-        <a href="/skus/<%= @sku.id %>/edit">Edit SKU</a> &nbsp;  &nbsp;
-        <a href="/skus/<%= @sku.id %>/del">Delete SKU</a>
-    </div> 
-  <% else %>
-  <div style="float: left; font-size:2em; font-weight:normal">
-        <p><a href="/trades/create">Trade for this!</a></p>
-    </div>
-  <% end %>
-
 
 </section>
 
