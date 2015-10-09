@@ -1,4 +1,4 @@
-# use migrations for setting up the data model: ??????????
+# use migrations for setting up the data model: ????
 
 require 'neography/tasks'
 require 'sinatra'

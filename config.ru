@@ -5,5 +5,5 @@ require 'bundler'
 
 Bundler.require
 
-require './neovigator'
-run Neovigator
+require './nara'
+run Nara

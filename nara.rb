@@ -14,7 +14,7 @@ require 'sinatra/activerecord'
 #   :client_secret => "EL1tVxAjhT7cJimnz5-Nsx9k2reTKSVfErNQF-CmrwJgxRtylkGTKlU4RvrX"
 # })
 
-class Neovigator < Sinatra::Base
+class Nara < Sinatra::Base
   set :erb, :format => :html5 
   set :app_file, __FILE__
 
@@ -226,13 +226,26 @@ class Neovigator < Sinatra::Base
     @node.to_json
   end
 
-######### START ##############################################
+######### START / SEARCH ##############################################
 
   get '/' do
     create_graph
     @neoid = params["neoid"] || 1
     erb :index
   end
+
+post '/search' do
+  @skus = Sku.find_by(name: params[:sku][:name])
+  erb :search
+end
+
+
+# get '/search'  do
+#   @post = Post.find(:Title => "%#{params[:query]}%")
+#   erb :'layout'
+# end
+
+
 
 ###### AUTH CONTROLLERS #################################################
 
@@ -485,6 +498,11 @@ get '/services' do
     erb :"trades/create"
   end
 
+get '/trades/sug' do
+    erb :"trades/sug"
+  end
+
+
     post '/trades' do
     @trade = Trade.new(params[:trade].merge(user_id: current_user.id))
       if @trade.save
@@ -590,10 +608,10 @@ get '/services' do
     erb :"donations/ok"  
   end
   
-  # get "/trades/:id" do
-  #   @trade = Trade.find(params[:id])
-  #   erb :"trades/view"
-  # end
+  get "/donations/:id" do
+    @donation = Donation.find(params[:id])
+    erb :"donations/view"
+  end
 
   #  post '/trades/:id' do
   #    @trade = Trade.find(params[:id])

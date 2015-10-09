@@ -2,10 +2,9 @@
 <br><br>
 <section id="left">
 	<div style="float: left; width: 100%; font-size:2em; font-weight:bold">
-	My Trade List
+  Trade Suggestions
 		<div style="float: right; font-size:1em; font-weight:normal">
     		<a href="trades/create">+ New Trade</a> &nbsp &nbsp
-        <a href="trades/sug">Trade Suggestions</a>
     </div>
 	</div>
 <div style="clear: both"></div> <br>
@@ -22,19 +21,6 @@
             <td>Status</td>
             <td>Created on</td>
         </thead>
-
-<% @trades.each do |trade| %>
-        <tr>
-            <td><a href="/trades/<%= trade.id %>"><%=h trade.id %></a></td>
-            <td><a href="/users/<%= trade.user_id %>"><%=h trade.user.name %></a></td>
-            <td><%=h trade.skuout1 %></a></td>
-            <td><%=h trade.qout1 %></a></td>
-            <td><%=h trade.skuin1 %></a></td>
-            <td><%=h trade.qin1 %></a></td>
-            <td><b><a href="/trades/<%= trade.id %>"><%=h trade.globalstatus %></a></b></td>
-            <td><%=h trade.created_at %></a></td>
-        </tr>
-        <% end %>
     </table>
 </div>
 </section>
@@ -48,6 +34,8 @@
     <div style="clear:both"></div>
     <hr>
     <br>
+    <p>Here are the trades suggested by NARA based on your company's supplies and needs. </p>
+    <br><br>
     
   <div class="avatararea">
     <div class="avatarheader">
