@@ -9,6 +9,7 @@ var statesData = {
       "id": "way/340538688",
       "properties": {
         "@id": "way/340538688",
+        "damage": "101",
         "building": "yes"
       },
       "geometry": {
@@ -781,6 +782,7 @@ var statesData = {
       "type": "Feature",
       "id": "way/340539705",
       "properties": {
+        "damage": "100",
         "@id": "way/340539705",
         "building": "yes"
       },
@@ -7362,7 +7364,8 @@ var statesData = {
       "id": "way/340926616",
       "properties": {
         "@id": "way/340926616",
-        "building": "yes"
+        "building": "yes",
+        "damage": "101",
       },
       "geometry": {
         "type": "Polygon",
@@ -7397,7 +7400,8 @@ var statesData = {
       "id": "way/340926620",
       "properties": {
         "@id": "way/340926620",
-        "building": "yes"
+        "building": "yes",
+        "damage": "101",
       },
       "geometry": {
         "type": "Polygon",
@@ -7432,7 +7436,8 @@ var statesData = {
       "id": "way/340926647",
       "properties": {
         "@id": "way/340926647",
-        "building": "yes"
+        "building": "yes",
+        "damage": "50",
       },
       "geometry": {
         "type": "Polygon",
@@ -7502,7 +7507,8 @@ var statesData = {
       "id": "way/340933534",
       "properties": {
         "@id": "way/340933534",
-        "building": "yes"
+        "building": "yes",
+        "damage": "101",
       },
       "geometry": {
         "type": "Polygon",
@@ -7537,7 +7543,8 @@ var statesData = {
       "id": "way/340933549",
       "properties": {
         "@id": "way/340933549",
-        "building": "yes"
+        "building": "yes",
+        "damage": "101",
       },
       "geometry": {
         "type": "Polygon",

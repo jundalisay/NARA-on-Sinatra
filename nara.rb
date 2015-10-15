@@ -5,38 +5,11 @@ require 'uri'
 require 'json'
 require 'sinatra/base'
 require 'sinatra/activerecord'
-# require 'paypal-sdk-rest'
-
-# include PayPal::SDK::REST
-# PayPal::SDK.configure({
-#   :mode => "sandbox",
-#   :client_id => "AQkquBDf1zctJOWGKWUEtKXm6qVhueUEMvXO_-MCI4DQQ4-LWvkDLIN2fGsd",
-#   :client_secret => "EL1tVxAjhT7cJimnz5-Nsx9k2reTKSVfErNQF-CmrwJgxRtylkGTKlU4RvrX"
-# })
+# require 'paypal-sdk-rest' check other nara project controllers if you want to implement paypal
 
 class Nara < Sinatra::Base
   set :erb, :format => :html5 
   set :app_file, __FILE__
-
-# register Sinatra::Neovigator::Controllers
-# helpers Sinatra::Neovigator::Helpers
-
-# PAYPAL STUFF --------------------------
-# @payment = PayPal::SDK::REST::Payment.new({
-#   :intent => "sale",
-#   :payer => {
-#     :payment_method => "paypal" },
-#   :redirect_urls => {
-#     :return_url => "https://devtools-paypal.com/guide/pay_paypal/ruby?success=true",
-#     :cancel_url => "https://devtools-paypal.com/guide/pay_paypal/ruby?cancel=true" },
-#   :transactions => [ {
-#     :amount => {
-#       :total => "12",
-#       :currency => "USD" },
-#     :description => "creating a payment" } ] } )
-
-#  @payment.create
-# --------------------------
 
   configure :test do
     require 'net-http-spy'
@@ -45,7 +18,7 @@ class Nara < Sinatra::Base
 
   configure do #app-wide settings
     enable :sessions
-    set :session_secret, ENV['SESSION_SECRET'] || 'this is a secret shhhhh'
+    set :session_secret, ENV['SESSION_SECRET'] || 'this is a secret!'
   end
 
   helpers do
@@ -228,13 +201,34 @@ class Nara < Sinatra::Base
 
 ######### START / SEARCH ##############################################
 
+# orig
+#   get '/' do
+#     create_graph
+#     @neoid = params["neoid"] || 1
+
   get '/' do
-    create_graph
-    @neoid = params["neoid"] || 1
-    erb :index
+    if current_user
+      create_graph
+      @neoid = params["neoid"] || 1
+      erb :index
+    else
+      redirect("/splash")
+    end
   end
 
+
+  # user = User.find_by(name: params[:user][:name])
+  #   if user
+  #     session[:user_id] = nil
+  #     redirect("/login")
+  #   else
+  #   erb :index
+  #   end
+
+   
+
 post '/search' do
+  
   @skus = Sku.find_by(name: params[:sku][:name])
   erb :search
 end
@@ -245,9 +239,11 @@ end
 #   erb :'layout'
 # end
 
-
-
 ###### AUTH CONTROLLERS #################################################
+
+  get '/splash' do
+    erb :'auth/splash'
+  end
 
   get '/login' do
     erb :'auth/login'
@@ -359,7 +355,9 @@ end
   post "/skus/needs" do
     @sku = Sku.new(params[:sku].merge(user_id: current_user.id))
     @sku.save
+    session[:user_id] = current_user.id    
     redirect '/'
+
   end
 
   get "/skus/create" do

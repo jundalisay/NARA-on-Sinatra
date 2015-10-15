@@ -1,0 +1,97 @@
+<style type="text/css">
+	form  { display: table; }
+	p     { display: table-row;  }
+	label { display: table-cell; }
+	input { display: table-cell; }
+	#inner { display: table; margin: 0 auto; }
+ </style>
+
+
+<section id="inner">
+	<br>
+	<h1>Sign In To View NARA</h1>
+	<br>
+		<form action="/login" method="POST">
+		  <p>
+		  	<label>Company Name: </label> &nbsp;
+		  	<input type="text" name="user[name]"><br><br>
+		  </p>
+
+		  <p>
+			  <label>Password:</label> &nbsp;
+			  <input type="password" name="user[password]" value=""><br><br>
+			  <input type="submit" value="Login!">
+		  </p>
+		</form>
+	</section>
+</section>
+
+<section id="inner">
+		<h1>Or Sign Up For An Account</h1><br>
+
+		<form action="/signup" method="post" role="form">
+			<p>
+				<label>Company Name * : </label>
+				<input class="form-control" name="user[name]" type="text"/>
+			</p>
+			<p><label></label>
+				<label>&nbsp; &#8593;  To be used for log in</label>
+				<!-- &#x25c0; -->
+			</p><br>
+			
+			<p>
+				<label>Password * :</label>
+				<input class="form-control" name="user[password]" type="password"/>
+			 	<!-- <label>&nbsp; &#x25c0; &nbsp; Use a non-personal password, in case others need to access the company account</label> -->
+			</p><br>
+
+			<p>
+				<label>Confirm Password * :</label>
+				<input class="form-control" name="user[password_confirmation]" type="password"/>
+				<label></label>
+			</p><br>
+
+			<p>
+				<label>	Email * : </label>
+				<input class="form-control" name="user[email]" type="text"/>
+				<!-- <label>&nbsp; &#x25c0; &nbsp; This is just for information purposes, we won't send anything here. The other fields below are not required.</label> -->
+			</p><br>
+
+			<p>
+				<label>Phone: </label>
+				<input class="form-control" name="user[phone]" type="text"/>
+			</p><br>
+
+			<p>
+				<label>Address: </label>
+<!-- 				<input class="form-control" name="user[address]" type="text" size="35"/> -->
+				<textarea name="user[address]" rows="2"  ></textarea> 
+			</p>
+			<p>
+				<label></label>
+				<label>&#8593; This is where customers</label>
+			</p>
+						<p>
+				<label></label>
+				<label>&nbsp; &nbsp; will get your goods</label>
+			</p>
+			<p>
+				<label></label>
+				<label>&nbsp; &nbsp; and send theirs</label>
+			</p><br>
+
+			<p>
+				<label>Business Description: &nbsp;  </label>
+				<textarea name="user[description]" rows="1" >e.g. vegetable seller</textarea>
+			</p><br>
+
+			<p>
+				<label>* required</label>
+				<input type="submit" value="Signup!">
+			</p>
+			<br><br>
+		</form>
+	</section>
+		<%= display_error %>
+
+</section>

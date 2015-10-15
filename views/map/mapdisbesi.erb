@@ -39,27 +39,46 @@
       }
 </style>   
 
-<title>Disaster Map: Philippines</title>
+<title>Disaster Map: Besisahar</title>
 .
 <div id="map" style="width: 100%; height: 95%"></div>
 
-  <section id="bottomrightsmall" role="complementary"><br>
+  <section id="bottomrightsmall" role="complementary">
     
-  <div class="avatararea">
+  <div class="avatararea" style="background-color:#A52A2A">
     <div class="avatarheader">
       <div class="avatar"><img src="http://www.redcross.int/EN/common/IMAGES/home/icrc_logo.gif" height="42" width="42">
       </div>
-        <a href="#"><b>Red Cross</a>:<a href="#"> Updated Relief Needs</b></a><br>
-        <small>1 hour ago</small>
-    </div><br>
-    <li>Besisahar: X</li>
-    <li>Gorkha: Y</li>
-    <li>Kathmandu: Z</li>
-    <a href="#"><small>see more</small></a><br>
-    <small><a href="#">Promote</a> - <a href="#">Comment</a> - <a href="#">Share</a></small>
-  </div>
-  <br><br>
-</section>
+      <a href="#"><b>Red Cross</a>:<a href="#"> Relief Zones</b></a>
+    </div>
+  </div><br>
+  
+  <div class="avatararea" style="background-color:#0000ff">
+    <div class="avatarheader">
+      <div class="avatar"><img src="http://www.harmonia-pv.de/images/kindernothilfe.jpeg" height="42" width="42">
+      </div>
+        <a href="#"><b>Kindernothilfe</a>:<a href="#"> Relief Zones</b></a><br>
+    </div>
+  </div><br>
+
+  <div class="avatararea" style="background-color:#DEB887">
+    <div class="avatarheader">
+      <div class="avatar"><img src="https://www.icrc.org/eng/assets/images/other/c806cab4a068f98ac125713100515a93body2.gif" height="42" width="42">
+      </div>
+        <a href="#"><b>Red Crescent</a>:<a href="#"> Relief Zones</b></a><br>
+    </div>
+  </div><br>
+
+  <div class="avatararea" style="background-color:#B8860B">
+    <div class="avatarheader">
+      <div class="avatar"><img src="http://www.fews.net/sites/default/files/styles/large/public/uploads/care-international-logo.jpeg?itok=nHOOSnzO" height="42" width="42">
+      </div>
+        <a href="#"><b>Care</a>:<a href="#"> Relief Zones</b></a><br>
+    </div>
+  </div><br>
+
+  </section>
+
 
 <script type="text/javascript">
   var map = L.map('map').setView(new L.LatLng(28.23, 84.375),17);
@@ -82,22 +101,34 @@ info.update = function (props) {
   this._div.innerHTML =  (props ?
   '<b>' + props.name + '</b><br>' + props.org + '<h3>needs</h3>' + 
   props.demands + '<br/>' + '<h3>supplies</h3>' + props.supplies  + 
-  '<br />' + '<h3>contact</h3>' + props.contact + '<br><br><button>Click building to send something!</button>'
+  '<br />' + '<h3>contact</h3>' + props.contact //+ '<br><br><button>Click building to send something!</button>'
   : 'Hover over a location');
 };
 info.addTo(map);
 
   // get color depending on population density value #49ff45'
-    function getColor(d) {
-      return d > 100 ? '#800026' :
-             d > 90  ? '#BD0026' :
-             d > 70  ? '#E31A1C' :
-             d > 50  ? '#FC4E2A' :
+    // function getColor(d) {
+    //   return d > 100 ? '#800026' :
+    //          d > 90  ? '#BD0026' :
+    //          d > 70  ? '#E31A1C' :
+    //          d > 50  ? '#FC4E2A' :
+    //          d > 30   ? '#FD8D3C' :
+    //          d > 20   ? '#FEB24C' :
+    //          d > 1   ? '#f2d887' :
+    //                   '#0000ff' ; 
+    // } below is the customized color scheme for each relief organization
+
+        function getColor(d) {
+      return d > 100 ? '#A52A2A' :
+             d > 90  ? '#5F9EA0' :
+             d > 70  ? '#DEB887' :
+             d > 50  ? '#B8860B' :
              d > 30   ? '#FD8D3C' :
              d > 20   ? '#FEB24C' :
              d > 1   ? '#f2d887' :
                       '#0000ff' ; 
     }
+
 
     function style(feature) {
       return {
