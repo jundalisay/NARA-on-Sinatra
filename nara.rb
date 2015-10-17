@@ -226,11 +226,6 @@ get '/search' do
   erb :'search'
 end
 
-  # post '/search' do
-  #   erb :'search'
-  # end
-
-
 ###### AUTH CONTROLLERS #################################################
 
   get '/splash' do
