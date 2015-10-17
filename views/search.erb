@@ -7,17 +7,29 @@
 <div style="clear: both"></div> <br>
 
 <div class="CSSTableGenerator" >
-  <table >
-        <thead>
-            <td>Trade<br> Number</td>
-            <td>Trade<br> Initiated By</td>
-            <td>SKU<br> Offered</td>
-            <td>Offer<br> Quantity</td>
-            <td>SKU<br> Needed</td>
-            <td>Needed<br>Quantity</td>
-            <td>Status</td>
-            <td>Created on</td>
+
+<% if @skus.present? %>
+<table>
+            <thead>
+            <td>SKU<br> Name</td>
+            <td>Company<br></td>
+            <td>Needer or<br>Supplier</td>
+            <td>Amount Needed<br>or Supplied</td>
+            
         </thead>
+  <% @skus.each do |sku| %>
+    <tr>
+        <td><a href="/skus/<%= sku.id %>"><%=h sku.name %></a></td>
+        <td><%=h sku.user.name %></td>
+        <td><%=h sku.need %></td>
+        <td><%=h sku.quantity %></td>
+  <% end %>
+<% else %>
+  <p>There are no SKUs containing the term(s) <%= params[:search] %>.</p>
+<% end %>
+</table>
+
+  <table >
 
 
     </table>

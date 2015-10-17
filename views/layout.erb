@@ -77,18 +77,17 @@ document.onreadystatechange = function () {
         <% if current_user %>
             <div class="menuitems"><a href="/trades">Trade</a></div>
             <div class="menuitems"><a href="/donations">Donations</a></div>
+                    <div class="menuitems">
+          <form action="/search", method="get"> 
+                Search: <input type="text" name="search" value ="" size="8">&nbsp; &nbsp;
+            </form></div>
         <% else %>
         <% end %>
         <div class="menuitems"><a href="/users">Companies</a></div>
         <!-- <div class="menuitems"><a href="/users">Users</a></div> -->
         <div class="menuitems"><a href="/about">About</a></div>
-        <div class="menuitems">
-		  <form action="/search", method="post"> 
-                Search: <input type="text" name="sku[name]" value ="" size="8">&nbsp; &nbsp;
-            </form></div>
-		<span style="float:right">
 
-            
+		<span style="float:right">
 			<form action="/", method="get"> 
                 Search Graph: <input type="text" name="neoid" value ="" size="2">&nbsp; &nbsp;
                 <% if current_user %>

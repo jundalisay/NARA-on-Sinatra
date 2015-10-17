@@ -3,55 +3,82 @@
 	p     { display: table-row;  }
 	label { display: table-cell; }
 	input { display: table-cell; }
+	#inner { display: table; margin: 0 auto; }
  </style>
 
-<h1>Signup</h1>
-<br>
-<section id="left">
-<form action="/signup" method="post" role="form">
-	<p>
-		<label>Company Name * : </label>
-		<input class="form-control" name="user[name]" type="text" style="width=90%"/>
-		<label>&nbsp; &#x25c0; Your company's name will be used for log in</label>
-	</p><br>
-	
-	<p>
-		<label>Password * :</label>
-		<input class="form-control" name="user[password]" type="password" style="width=90%"/>
-	 	<label>&nbsp; &#x25c0; &nbsp; Use a non-personal password, in case others need to access the company account</label>
-	</p><br>
+<section id="inner">
+		<h1>Sign Up For An Account</h1><br>
 
-	<p>
-		<label>Confirm Password * :</label>
-		<input class="form-control" name="user[password_confirmation]" type="password" style="width=90%"/>
-		<label></label>
-	</p><br>
+		<form action="/signup" method="post" role="form">
+			<p>
+				<label>Company Name * : </label>
+				<input class="form-control" name="user[name]" type="text"/>
+			</p>
+			<p><label></label>
+				<label>&#8593; To be used for log in</label>
+				<!-- &#x25c0; -->
+			</p>
+			<p><label></label>
+				<label>Use a short name such as <i>Acme<</i>/label>
+			</p>
+			<p><label></label>
+				<label>&nbsp; &nbsp; Instead of Acme Company</label>
+			</p><br>
 
-	<p>
-		<label>	Email * : </label>
-		<input class="form-control" name="user[email]" type="text" style="width=90%"/>
-		<label>&nbsp; &#x25c0; &nbsp; This is just for information purposes, we won't send anything here. The other fields below are not required.</label>
-	</p><br>
 
-	<p>
-		<label>Phone: </label>
-		<input class="form-control" name="user[phone]" type="text" style="width=90%"/>
-	</p><br>
+			<p>
+				<label>Password * :</label>
+				<input class="form-control" name="user[password]" type="password"/>
+			 	<!-- <label>&nbsp; &#x25c0; &nbsp; Use a non-personal password, in case others need to access the company account</label> -->
+			</p><br>
 
-	<p>
-		<label>Address: </label>
-		<textarea name="user[address]" rows="2" ></textarea>
-	</p><br>
+			<p>
+				<label>Confirm Password * :</label>
+				<input class="form-control" name="user[password_confirmation]" type="password"/>
+				<label></label>
+			</p><br>
 
-	<p>
-		<label>Business Description: &nbsp;  </label>
-		<textarea name="user[description]" rows="1" >e.g. vegetable seller</textarea>
-	</p><br>
+			<p>
+				<label>	Email * : </label>
+				<input class="form-control" name="user[email]" type="text"/>
+				<!-- <label>&nbsp; &#x25c0; &nbsp; This is just for information purposes, we won't send anything here. The other fields below are not required.</label> -->
+			</p><br>
 
-	<input type="submit" value="Signup!">
-	<br><br>
-	* needed
-	
-</form>
+			<p>
+				<label>Phone: </label>
+				<input class="form-control" name="user[phone]" type="text"/>
+			</p><br>
+
+			<p>
+				<label>Address * : </label>
+<!-- 				<input class="form-control" name="user[address]" type="text" size="35"/> -->
+				<textarea name="user[address]" rows="2"  ></textarea> 
+			</p>
+			<p>
+				<label></label>
+				<label>&#8593; This is where customers</label>
+			</p>
+						<p>
+				<label></label>
+				<label>&nbsp; &nbsp; will get your goods</label>
+			</p>
+			<p>
+				<label></label>
+				<label>&nbsp; &nbsp; and send theirs</label>
+			</p><br>
+
+			<p>
+				<label>Business Description: &nbsp;  </label>
+				<textarea name="user[description]" rows="1" >e.g. vegetable seller</textarea>
+			</p><br>
+
+			<p>
+				<label>* required</label>
+				<input type="submit" value="Signup!">
+			</p><br>
+		</form>
+		<%= display_error %>
+	</section>
+		
+
 </section>
-<%= display_error %>

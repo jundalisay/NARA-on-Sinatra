@@ -3,29 +3,29 @@
 	p     { display: table-row;  }
 	label { display: table-cell; }
 	input { display: table-cell; }
+  #inner { display: table; margin: 0 auto; }
  </style>
 
-<h1>Company Login</h1>
-<br>
+<section id="inner">
+  <br>
+  <h1>Sign In To Access NARA</h1>
+  <br>
+    <form action="/login" method="POST">
+      <p>
+        <label>Company Name: </label> &nbsp;
+        <input type="text" name="user[name]"><br><br>
+      </p>
 
-<section id="left">
-<form action="/login" method="POST">
-  <p>
-  	<label>Company Name: </label> &nbsp;
-  	<input type="text" name="user[name]"><br><br>
-  </p>
-
-  <p>
-  <label>Password:</label> &nbsp;
-  <input type="password" name="user[password]" value=""><br><br>
-  <input type="submit" value="Login!">
-  </p>
-</form>
-
-<br>
-You must be logged in under your company to view or enter data<br>
-Otherwise <strong><a href="/signup">signup</a></strong> for a new company account
+      <p>
+        <label>Password:</label> &nbsp;
+        <input type="password" name="user[password]" value=""><br><br>
+        <input type="submit" value="Login!">
+      </p>
+    </form>
+  <br>
+    You must be logged in under your company to view or enter data<br>
+    Otherwise <strong><a href="/signup">signup</a></strong> for a new company account
+  <br>
+    <%= display_error %>
+  </section>
 </section>
-<br>
-
-<%= display_error %>

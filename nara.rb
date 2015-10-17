@@ -210,34 +210,26 @@ class Nara < Sinatra::Base
     if current_user
       create_graph
       @neoid = params["neoid"] || 1
-      erb :index
+      erb :'index'
     else
       redirect("/splash")
     end
   end
 
-
-  # user = User.find_by(name: params[:user][:name])
-  #   if user
-  #     session[:user_id] = nil
-  #     redirect("/login")
-  #   else
-  #   erb :index
-  #   end
-
-   
-
-post '/search' do
-  
-  @skus = Sku.find_by(name: params[:sku][:name])
-  erb :search
+get '/search' do
+  @skus = Sku.all
+    if params[:search]
+      @skus = Sku.search(params[:search])
+    else
+      @skus = Sku.all
+  end
+  erb :'search'
 end
 
+  # post '/search' do
+  #   erb :'search'
+  # end
 
-# get '/search'  do
-#   @post = Post.find(:Title => "%#{params[:query]}%")
-#   erb :'layout'
-# end
 
 ###### AUTH CONTROLLERS #################################################
 
@@ -664,6 +656,7 @@ class User < ActiveRecord::Base
   has_secure_password
   validates :name, presence: true, uniqueness: true
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create }
+  validates :address, presence: true
   has_many :skus
 end
 
@@ -674,6 +667,13 @@ class Sku < ActiveRecord::Base
 #  add_reference :users, :course, index: true
 #  validates :user_id, 
   belongs_to :user
+
+def self.search(search)
+  # where("name like :name", :name => "#{search}") 
+  #where("name like :pat", :pat => "%#{search}%") 
+  where("name like ?", "%#{search}%")
+end
+
 end
 
 class Service < ActiveRecord::Base
