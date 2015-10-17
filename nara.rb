@@ -219,9 +219,9 @@ class Nara < Sinatra::Base
 get '/search' do
   @skus = Sku.all
     if params[:search]
-      @skus = Sku.search(params[:search])
+      @skus = Sku.search(params[:search]).order("created_at DESC")
     else
-      @skus = Sku.all
+      @skus = Sku.all.order("created_at DESC")
   end
   erb :'search'
 end
@@ -348,8 +348,19 @@ end
     @sku = Sku.new(params[:sku].merge(user_id: current_user.id))
     @sku.save
     session[:user_id] = current_user.id    
-    redirect '/'
+    redirect "/skus/supplies"
+  end
 
+  get "/skus/supplies" do  
+    @sku = Sku.new
+    erb :"/skus/supplies"
+  end
+
+  post "/skus/supplies" do
+    @sku = Sku.new(params[:sku].merge(user_id: current_user.id))
+    @sku.save
+    session[:user_id] = current_user.id    
+    redirect "/"
   end
 
   get "/skus/create" do

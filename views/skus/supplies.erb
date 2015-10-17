@@ -1,9 +1,9 @@
 <link rel="stylesheet" href="/css/table.css" />
-<h1>Products You Need</h1>
+<h1>Products You Supply</h1>
 <br>
 
 <section class="left" style="margin-left: 10px;">
-  <form action="/skus/needs" method="post" role="form">
+  <form action="/skus/supplies" method="post" role="form">
 
   <div class="CSSTableGenerator" >
   <table>
@@ -11,7 +11,7 @@
       <tr><td></td><td>Product (SKU) Name:</td><td>Quantity:</td><td>Measure*:</td></tr>
     </thead>
 
-      <tr><td>Enter a product you need &#x25b6;</td><td><input id="sku_name" name="sku[name]" type="text"></td>
+      <tr><td>Enter a product you supplie &#x25b6;</td><td><input id="sku_name" name="sku[name]" type="text"></td>
         <td><input id="sku_quantity" name="sku[quantity]" type="number"></td>
         <td><input id="sku_measure" name="sku[measure]" type="text"></td>
       </tr>
@@ -29,7 +29,7 @@
   <!-- hidden field for company name -->
   <p>
     <input id="sku_user" name="sku[user_id]" type="hidden" value="<%=h current_user.id %>"/>
-    <input id="sku_need" name="sku[need]" type="hidden" value="needer">
+    <input id="sku_need" name="sku[need]" type="hidden" value="supplier">
     <button type="submit" class="btn btn-success">Done</button>
   </p>
 	</form>
@@ -37,7 +37,7 @@
 </section>
 
 <aside>
-  <p>Enter the Products (SKUs) that you need here.</p>
+  <p>Enter the Products (SKUs) that you supply here.</p>
   <p>If you can't think of anything, just leave this blank and press Done.</p>
   <p>You can add more later by going to the SKU page</p><br>
   <!-- <p>Please use measures in weight or in industry-standard sizes as much as possible. Do not use measures such as 'sacks' or 'bags'.</p> -->
