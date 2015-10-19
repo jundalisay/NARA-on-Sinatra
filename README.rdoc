@@ -1,0 +1,11 @@
+=== Description
+
+An attempt to turn let users enter nodes in Neovigator as a basic CRUD app:
+	- using erb instead of haml
+	- using sqlite, activerecord and postgres as a secondary or temp db
+
+=== Credits
+
+This project is based on:
+ Neovigator;
+ {Ask Ken}[http://askken.heroku.com] created by {Michael Aufreiter}[http://twitter.com/_mql]

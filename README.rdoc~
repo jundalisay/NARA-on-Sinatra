@@ -1,0 +1,30 @@
+=== Description
+
+A attempt to let users enter nodes in Max De Marzi's Neovigator:
+	- from branch jundalisay
+	- using erb instead of haml
+	- using sqlite, activerecord and postgres as a secondary or temp db
+
+=== How To
+
+  bundle install
+  rake neo4j:install
+  rake neo4j:start
+  rackup
+  
+Go to http://localhost:9292 to see it running.  
+
+Enter a node id in the search box and click "Load"
+
+See an example running on heroku at {http://neovigator.herokuapp.com}[http://neovigator.herokuapp.com]
+
+=== Credits
+
+This project is based on:
+ Neovigator;
+ {Ask Ken}[http://askken.heroku.com] created by {Michael Aufreiter}[http://twitter.com/_mql]
+
+=== Links
+
+* {Neo4j Community}[http://neo4j.org]
+* {Max De Marzi}[http://maxdemarzi.com]
